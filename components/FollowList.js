@@ -26,9 +26,9 @@ const FollowerList = ({ header, data }) => (
   />
 );
 
-FollowerList.propType = {
+FollowerList.propTypes = {
   header: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf.isRequired,
 };
 
 export default FollowerList;

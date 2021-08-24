@@ -1,22 +1,25 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-
+import PropTypes from "prop-types";
+import useInput from "../hooks/useInput";
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
 
 const LoginForm = ({ setLoginFl }) => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  //   const [id, setId] = useState("");
+  //   const [password, setPassword] = useState("");
+  const [id, onChangeId] = useInput("");
+  const [password, onChangePassword] = useInput("");
 
-  const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-  }, []);
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  //   const onChangeId = useCallback((e) => {
+  //     setId(e.target.value);
+  //   }, []);
+  //   const onChangePassword = useCallback((e) => {
+  //     setPassword(e.target.value);
+  //   }, []);
 
   const onSubmitForm = useCallback(() => {
     //NOTE:ANTED 에서는 이미 preventDefault가 적용되어있다.
@@ -55,6 +58,10 @@ const LoginForm = ({ setLoginFl }) => {
       </ButtonWrapper>
     </Form>
   );
+};
+
+LoginForm.propTypes = {
+  setLoginFl: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
