@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import LoginForm from "./LoginForm";
+
 const AppLayout = ({ children }) => {
   const [loginFl, setLoginFl] = useState(false);
   return (
@@ -31,7 +32,11 @@ const AppLayout = ({ children }) => {
       {/* NOTE:col끼리 guutter/2 좌우 padding */}
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {loginFl ? <UserProfile /> : <LoginForm />}
+          {loginFl ? (
+            <UserProfile setLoginFl={setLoginFl} />
+          ) : (
+            <LoginForm setLoginFl={setLoginFl} />
+          )}
         </Col>
         <Col xs={24} md={12}>
           {children}

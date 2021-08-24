@@ -1,8 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
+import styled from "styled-components";
 
-const LoginForm = () => {
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+`;
+
+const LoginForm = ({ setLoginFl }) => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,8 +17,15 @@ const LoginForm = () => {
   const onChangePassword = useCallback((e) => {
     setPassword(e.target.value);
   }, []);
+
+  const onSubmitForm = useCallback(() => {
+    //NOTE:ANTED 에서는 이미 preventDefault가 적용되어있다.
+    console.log(id, password);
+    setLoginFl(true);
+  }, [id, password]);
+
   return (
-    <Form>
+    <Form onFinish={onSubmitForm} style={{ padding: "8px" }}>
       <div>
         <label htmlFor="user-id">아이디</label>
         <br />
@@ -30,7 +42,8 @@ const LoginForm = () => {
           required
         />
       </div>
-      <div>
+
+      <ButtonWrapper>
         <Button type="primary" htmlType="submit" loading={false}>
           로그인
         </Button>
@@ -39,7 +52,7 @@ const LoginForm = () => {
             <Button>회원가입</Button>
           </a>
         </Link>
-      </div>
+      </ButtonWrapper>
     </Form>
   );
 };
