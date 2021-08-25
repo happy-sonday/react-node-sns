@@ -1,11 +1,15 @@
 import React, { useCallback } from "react";
 import { Button, Card } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../reducers/user";
 
 // eslint-disable-next-line react/prop-types
-const UserProfile = ({ setLoginFl }) => {
+const UserProfile = () => {
+  const dispatch = useDispatch();
   const onLogOut = useCallback(() => {
-    setLoginFl(false);
+    //setLoginFl(false);
+    dispatch(logoutAction());
   }, []);
   return (
     <>

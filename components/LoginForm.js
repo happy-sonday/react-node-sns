@@ -2,13 +2,16 @@ import React, { useCallback } from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import useInput from "../hooks/useInput";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../reducers/user";
+
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const LoginForm = ({ setLoginFl }) => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
   //   const [id, setId] = useState("");
   //   const [password, setPassword] = useState("");
   const [id, onChangeId] = useInput("");
@@ -24,7 +27,8 @@ const LoginForm = ({ setLoginFl }) => {
   const onSubmitForm = useCallback(() => {
     //NOTE:ANTED 에서는 이미 preventDefault가 적용되어있다.
     console.log(id, password);
-    setLoginFl(true);
+    //setLoginFl(true);
+    dispatch(loginAction({ id, password }));
   }, [id, password]);
 
   return (
@@ -58,10 +62,6 @@ const LoginForm = ({ setLoginFl }) => {
       </ButtonWrapper>
     </Form>
   );
-};
-
-LoginForm.propTypes = {
-  setLoginFl: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

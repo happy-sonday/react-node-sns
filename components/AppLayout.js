@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import LoginForm from "./LoginForm";
+import { useSelector } from "react-redux";
 
 const AppLayout = ({ children }) => {
-  const [loginFl, setLoginFl] = useState(false);
+  //const [loginFl, setLoginFl] = useState(false);
+  const { loginFl } = useSelector((state) => state.user);
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -32,11 +35,7 @@ const AppLayout = ({ children }) => {
       {/* NOTE:col끼리 guutter/2 좌우 padding */}
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {loginFl ? (
-            <UserProfile setLoginFl={setLoginFl} />
-          ) : (
-            <LoginForm setLoginFl={setLoginFl} />
-          )}
+          {loginFl ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
