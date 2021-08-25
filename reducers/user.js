@@ -1,6 +1,6 @@
 export const initialState = {
   loginFl: false,
-  user: null,
+  self: null,
   signUpData: {},
   loginData: {},
 };
@@ -23,13 +23,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loginFl: true,
-        user: action.data,
+        self: action.data,
       };
     case "LOG_OUT":
       return {
         ...state,
         loginFl: false,
-        user: null,
+        self: null,
       };
 
     default:
