@@ -6,7 +6,7 @@ export const initialState = {
         id: 1,
         nickname: "손데이",
       },
-      content: "처 번째 게시글 #해시태그 #익스프레스",
+      content: "첫 번째 게시글 #해시태그 #익스프레스 #더미 #하드코딩",
       Images: [
         {
           src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726",
