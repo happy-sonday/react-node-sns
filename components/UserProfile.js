@@ -7,7 +7,7 @@ import { logoutRequestAction } from "../reducers/user";
 // eslint-disable-next-line react/prop-types
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { self, loggingOutFl } = useSelector((state) => state.user);
+  const { self, logOutLoading } = useSelector((state) => state.user);
 
   const onLogOut = useCallback(() => {
     //setLoginFl(false);
@@ -19,15 +19,17 @@ const UserProfile = () => {
         actions={[
           <div key="twit">
             짹짹
-            <br /> 0
+            <br /> {self.Posts.length}
           </div>,
           <div key="followings">
             팔로잉
-            <br />0
+            <br />
+            {self.Followings.length}
           </div>,
           <div key="follower">
             팔로워
-            <br />0
+            <br />
+            {self.Followers.length}
           </div>,
         ]}
       >
@@ -35,7 +37,7 @@ const UserProfile = () => {
           avatar={<Avatar>{self?.nickname}</Avatar>}
           title={self.nickname}
         />
-        <Button onClick={onLogOut} loading={loggingOutFl}>
+        <Button onClick={onLogOut} loading={logOutLoading}>
           로그아웃
         </Button>
       </Card>

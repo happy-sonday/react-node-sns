@@ -14,9 +14,9 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   //   const [id, setId] = useState("");
   //   const [password, setPassword] = useState("");
-  const [id, onChangeId] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
-  const { loggingFl } = useSelector((state) => state.user);
+  const { logInLoading } = useSelector((state) => state.user);
 
   //   const onChangeId = useCallback((e) => {
   //     setId(e.target.value);
@@ -29,15 +29,21 @@ const LoginForm = () => {
     //NOTE:ANTED 에서는 이미 preventDefault가 적용되어있다.
 
     //setLoginFl(true);
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
 
   return (
     <Form onFinish={onSubmitForm} style={{ padding: "8px" }}>
       <div>
-        <label htmlFor="user-id">아이디</label>
+        <label htmlFor="user-email">이메일</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeId} required />
+        <Input
+          name="user-email"
+          value={email}
+          type="email"
+          onChange={onChangeEmail}
+          required
+        />
       </div>
       <div>
         <label htmlFor="user-password">비밀번호</label>
@@ -52,7 +58,7 @@ const LoginForm = () => {
       </div>
 
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={loggingFl}>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>
           로그인
         </Button>
         <Link href="/signup">
