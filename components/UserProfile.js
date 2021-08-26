@@ -1,15 +1,17 @@
 import React, { useCallback } from "react";
 import { Button, Card } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
-import { useDispatch } from "react-redux";
-import { logoutAction } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutRequestAction } from "../reducers/user";
 
 // eslint-disable-next-line react/prop-types
 const UserProfile = () => {
   const dispatch = useDispatch();
+  const { self, loggingOutFl } = useSelector((state) => state.user);
+
   const onLogOut = useCallback(() => {
     //setLoginFl(false);
-    dispatch(logoutAction());
+    dispatch(logoutRequestAction());
   }, []);
   return (
     <>
@@ -29,8 +31,13 @@ const UserProfile = () => {
           </div>,
         ]}
       >
-        <Card.Meta avatar={<Avatar>SD</Avatar>} title="sonday" />
-        <Button onClick={onLogOut}>로그아웃</Button>
+        <Card.Meta
+          avatar={<Avatar>{self?.nickname}</Avatar>}
+          title={self.nickname}
+        />
+        <Button onClick={onLogOut} loading={loggingOutFl}>
+          로그아웃
+        </Button>
       </Card>
     </>
   );
