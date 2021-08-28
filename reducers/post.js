@@ -1,3 +1,5 @@
+import shortId from "shortid";
+
 export const initialState = {
   mainPosts: [
     {
@@ -60,16 +62,16 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = {
-  id: 2,
-  content: "더미데이터입니다.",
+const dummyPost = (data) => ({
+  id: shortId.generate(),
+  content: data,
   User: {
     id: 1,
     nickname: "제로초",
   },
   Images: [],
   Comments: [],
-};
+});
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST_REQUEST:
@@ -84,7 +86,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         //NOTE:게시물 작성 최신으로 하기 위해 [작성글, 이전글]
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
         addPostLoading: false,
         addPostDone: true,
       };
