@@ -26,7 +26,7 @@ const Global = createGlobalStyle`
 
 const AppLayout = ({ children }) => {
   //const [loginFl, setLoginFl] = useState(false);
-  const { loginFl } = useSelector((state) => state.user);
+  const { self } = useSelector((state) => state.user);
 
   return (
     <div>
@@ -54,7 +54,7 @@ const AppLayout = ({ children }) => {
       {/* NOTE:col끼리 guutter/2 좌우 padding */}
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {loginFl ? <UserProfile /> : <LoginForm />}
+          {self ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

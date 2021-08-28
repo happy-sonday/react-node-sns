@@ -3,6 +3,7 @@ import { all, delay, fork, put, takeLatest } from "redux-saga/effects";
 import {
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
+  LOG_IN_SUCCESS,
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
@@ -22,13 +23,13 @@ function* logIn(action) {
     yield delay(1000);
     //const result = yield call(logInAPI);
     yield put({
-      type: LOG_IN_REQUEST,
+      type: LOG_IN_SUCCESS,
       data: action.data,
     });
   } catch (error) {
     yield put({
       type: LOG_IN_FAILURE,
-      data: error.response.data,
+      error: error.response.data,
     });
   }
 }
