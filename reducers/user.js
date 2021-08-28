@@ -40,13 +40,16 @@ export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
 export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
 export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 
+export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
+export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
+
 const dummyUser = (data) => ({
   ...data,
   nickname: "손데이",
   id: 1,
-  Posts: [],
-  Followings: [],
-  Followers: [],
+  Posts: [{ id: 1 }],
+  Followings: [{ nickname: "해피" }, { nickname: "손샤인" }],
+  Followers: [{ nickname: "해피" }, { nickname: "손샤인" }],
 });
 
 export const loginRequestAction = (data) => {
@@ -144,7 +147,22 @@ const reducer = (state = initialState, action) => {
         signUpLoading: false,
         signUpError: action.error,
       };
-
+    case ADD_POST_TO_ME:
+      return {
+        ...state,
+        self: {
+          ...state.self,
+          Posts: [{ id: action.data }, ...state.self.Posts],
+        },
+      };
+    case REMOVE_POST_OF_ME:
+      return {
+        ...state,
+        self: {
+          ...state.self,
+          Posts: state.self.Posts.filter((v) => v.id !== action.data),
+        },
+      };
     default:
       return state;
   }
