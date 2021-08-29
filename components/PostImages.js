@@ -20,7 +20,6 @@ const PostImages = ({ images }) => {
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
-          style={{ width: "50%" }}
         />
         {showImageZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
