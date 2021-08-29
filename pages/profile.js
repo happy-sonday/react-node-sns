@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import NicknameEditionForm from "../components/NicknamEditionForm";
 import FollowerList from "../components/FollowList";
 import { useSelector } from "react-redux";
+import Router from "next/router";
 
 const Profile = () => {
   // const followerList = [
@@ -17,6 +18,15 @@ const Profile = () => {
   //   { nickname: "yeah" },
   // ];
   const { self } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!(self && self.id)) {
+      Router.push("/");
+    }
+  }, [self && self.id]);
+  if (!self) {
+    return null;
+  }
   return (
     <>
       <Head>
