@@ -1,5 +1,5 @@
 import axios from "axios";
-import { all, delay, fork, put, takeLatest } from "redux-saga/effects";
+import { all, delay, fork, put, takeLatest, call } from "redux-saga/effects";
 import {
   FOLLOW_FAILURE,
   FOLLOW_REQUEST,
@@ -11,6 +11,7 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
   SIGN_UP_FAILURE,
+  SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   UNFOLLOW_FAILURE,
   UNFOLLOW_REQUEST,
@@ -54,13 +55,16 @@ function* logOut() {
   }
 }
 
-function signUpAPI() {
-  return axios.post("/api/signUp");
+function signUpAPI(data) {
+  console.log("회원가입 서버요청");
+  return axios.post("http://localhost:3065/user", data);
 }
-function* signUp() {
+function* signUp(action) {
   try {
-    yield delay(1000);
-    // const result = yield call(logOutAPI);
+    //yield delay(1000);
+    const result = yield call(signUpAPI, action.data);
+
+    console.log("요청결과:", result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -124,7 +128,7 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 function* watchSignUp() {
-  yield takeLatest(SIGN_UP_SUCCESS, signUp);
+  yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 export default function* userSaga() {
