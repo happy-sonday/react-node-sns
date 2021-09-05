@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
@@ -16,7 +16,7 @@ const LoginForm = () => {
   //   const [password, setPassword] = useState("");
   const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
-  const { logInLoading } = useSelector((state) => state.user);
+  const { logInLoading, logInError } = useSelector((state) => state.user);
 
   //   const onChangeId = useCallback((e) => {
   //     setId(e.target.value);
@@ -24,6 +24,12 @@ const LoginForm = () => {
   //   const onChangePassword = useCallback((e) => {
   //     setPassword(e.target.value);
   //   }, []);
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
 
   const onSubmitForm = useCallback(() => {
     //NOTE:ANTED 에서는 이미 preventDefault가 적용되어있다.

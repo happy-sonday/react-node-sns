@@ -24,12 +24,19 @@ const Signup = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const dispatch = useDispatch();
-  const { signUpLoading, signUpDone, signUpError } = useSelector(
+  const { signUpLoading, signUpDone, signUpError, self } = useSelector(
     (state) => state.user
   );
 
   const [term, setTerm] = useState("");
   const [termError, setTermError] = useState(false);
+
+  //회원가입 페이지에서 로그인 진행하면 회원가입 route url 제거
+  useEffect(() => {
+    if (self && self.id) {
+      Router.replace("/");
+    }
+  }, [self && self.id]);
 
   useEffect(() => {
     if (signUpDone) {
