@@ -18,18 +18,16 @@ import {
   UNFOLLOW_SUCCESS,
 } from "../reducers/user";
 
-function logInAPI() {
-  return axios.post("/api/login");
+function logInAPI(data) {
+  return axios.post("/user/login", data);
 }
 
 function* logIn(action) {
   try {
-    console.log("saga LOG_IN_REQUEST ACTION");
-    yield delay(1000);
-    //const result = yield call(logInAPI);
+    const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -38,11 +36,14 @@ function* logIn(action) {
     });
   }
 }
+function logOutAPI(data) {
+  return axios.post("/user/logout", data);
+}
 
-function* logOut() {
+function* logOut(action) {
   try {
     yield delay(1000);
-    // const result = yield call(logOutAPI);
+    const result = yield call(logOutAPI, action.data);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
@@ -57,7 +58,7 @@ function* logOut() {
 
 function signUpAPI(data) {
   console.log("회원가입 서버요청");
-  return axios.post("http://localhost:3065/user", data);
+  return axios.post("/user", data);
 }
 function* signUp(action) {
   try {

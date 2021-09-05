@@ -24,12 +24,12 @@ const UserProfile = () => {
           <div key="followings">
             팔로잉
             <br />
-            {self.Followings.length}
+            {self.Followings?.length}
           </div>,
           <div key="follower">
             팔로워
             <br />
-            {self.Followers.length}
+            {self.Followers?.length}
           </div>,
         ]}
       >
