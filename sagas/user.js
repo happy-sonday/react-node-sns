@@ -25,6 +25,7 @@ function logInAPI(data) {
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
+
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
@@ -65,7 +66,6 @@ function* signUp(action) {
     //yield delay(1000);
     const result = yield call(signUpAPI, action.data);
 
-    console.log("요청결과:", result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
