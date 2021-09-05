@@ -48,6 +48,10 @@ app.get("/", (req, res) => {
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
+//에러를 커스터마이징
+// app.use((err,req,res,next)=>{
+// });
+
 app.listen(3065, () => {
   console.log("서버 실행중!");
 });

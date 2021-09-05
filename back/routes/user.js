@@ -3,8 +3,10 @@ const bcrypt = require("bcrypt");
 const { User, Post } = require("../models");
 const passport = require("passport");
 const router = express.Router();
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 
 //NOTE: passport/user.js에서 callback done(...)의 응답값을 각 파라미터로 받음
+//TODO:미들웨어 작성
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -45,7 +47,7 @@ router.post("/login", (req, res, next) => {
     });
   })(req, res, next);
 });
-
+//TODO:미들웨어 작성
 router.post("/", async (req, res, next) => {
   //post '/user'
 
@@ -74,8 +76,8 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
-
-router.post("/user/logout", (req, res, next) => {
+//TODO:미들웨어 작성
+router.post("/logout", (req, res, next) => {
   req.logout();
   req.session.destroy();
   res.send("logout comp!!");
