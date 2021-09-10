@@ -10,7 +10,7 @@ module.exports = () => {
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await User.findOne({ where: { id } });
-      done(null, user);
+      done(null, user); //req.user
     } catch (error) {
       console.error(error);
       done(error);
@@ -18,3 +18,5 @@ module.exports = () => {
   });
   local();
 };
+
+//serializeUser id를 저장 후, 해당정보로 deserializeUser 복구해서 사용자 정보를 만든다.

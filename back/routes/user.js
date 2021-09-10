@@ -7,7 +7,7 @@ const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 
 //NOTE: passport/user.js에서 callback done(...)의 응답값을 각 파라미터로 받음
 //TODO:미들웨어 작성
-router.post("/login", (req, res, next) => {
+router.post("/login", isNotLoggedIn, (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       console.error(err);
@@ -48,7 +48,7 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 //TODO:미들웨어 작성
-router.post("/", async (req, res, next) => {
+router.post("/", isNotLoggedIn, async (req, res, next) => {
   //post '/user'
 
   try {
@@ -77,7 +77,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 //TODO:미들웨어 작성
-router.post("/logout", (req, res, next) => {
+router.post("/logout", isLoggedIn, (req, res, next) => {
   req.logout();
   req.session.destroy();
   res.send("logout comp!!");

@@ -104,25 +104,14 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: "제로초",
-  },
-  Images: [],
-  Comments: [],
-});
-
-const dummyComment = (data) => ({
-  id: shortid.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: "손데이",
-  },
-});
+// const dummyComment = (data) => ({
+//   id: shortid.generate(),
+//   content: data,
+//   User: {
+//     id: 1,
+//     nickname: "손데이",
+//   },
+// });
 
 //NOTE: reducer이전 상태를액셩 통해 다음 상태로 만들어내는 함수 (불변성을 지키면서)
 const reducer = (state = initialState, action) => {
@@ -152,7 +141,8 @@ const reducer = (state = initialState, action) => {
         break;
 
       case ADD_POST_SUCCESS:
-        draft.mainPosts.unshift(dummyPost(action.data));
+        //draft.mainPosts.unshift(dummyPost(action.data));
+        draft.mainPosts.unshift(action.data);
         draft.addPostLoading = false;
         draft.addPostDone = true;
         break;
@@ -182,8 +172,9 @@ const reducer = (state = initialState, action) => {
         //   addCommentDone: true,
         // };
 
-        const post = draft.mainPosts.find((v) => v.id === action.data.postId);
-        post.Comments.unshift(dummyComment(action.data.content));
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId); //Comment.create()안에 객체의 key명으로 가져온다
+        //post.Comments.unshift(dummyComment(action.data.content));
+        post.Comments.unshift(action.data.content);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;

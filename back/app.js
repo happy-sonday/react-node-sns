@@ -48,8 +48,9 @@ app.get("/", (req, res) => {
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
-//에러를 커스터마이징
+//에러를 커스터마이징 next(error) 처리
 // app.use((err,req,res,next)=>{
+
 // });
 
 app.listen(3065, () => {
