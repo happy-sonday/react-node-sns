@@ -1,4 +1,4 @@
-const router = express.Router();
+const express = require("express");
 const { Post } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
