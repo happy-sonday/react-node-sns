@@ -6,6 +6,7 @@ import {
   put,
   takeLatest,
   throttle,
+  call,
 } from "redux-saga/effects";
 import shortid from "shortid";
 import {
@@ -48,7 +49,13 @@ function* loadPosts(action) {
 }
 function addPostAPI(data) {
   //back에서 req.body.content
-  return axios.post("/post", { content: data });
+  return axios.post(
+    "/post",
+    { content: data },
+    {
+      withCredentials: true,
+    }
+  );
 }
 
 function* addPost(action) {
@@ -79,7 +86,9 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.delete("/api/post", data);
+  return axios.delete("/api/post", data, {
+    withCredentials: true,
+  });
 }
 
 function* removePost(action) {
@@ -105,7 +114,9 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post(`/post/${data.postId}/comment`, data);
+  return axios.post(`/post/${data.postId}/comment`, data, {
+    withCredentials: true,
+  });
 }
 
 function* addComment(action) {
@@ -117,7 +128,7 @@ function* addComment(action) {
       // data: {
       //   content: action.data,
       // },
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

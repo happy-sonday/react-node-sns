@@ -174,7 +174,7 @@ const reducer = (state = initialState, action) => {
 
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId); //Comment.create()안에 객체의 key명으로 가져온다
         //post.Comments.unshift(dummyComment(action.data.content));
-        post.Comments.unshift(action.data.content);
+        post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;

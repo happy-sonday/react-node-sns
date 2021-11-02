@@ -22,8 +22,8 @@ passportConfig();
 app.use(
   cors({
     //origin:'https://hodebird.com',
-    origin: true, //'*' 동일
-    credentials: false, //(default)
+    origin: true, //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
+    credentials: true, // CORS Access-Control-Allow-Credentials Cookie도 같이 전달하기 위함
   })
 );
 app.use(express.json());
