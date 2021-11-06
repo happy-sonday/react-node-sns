@@ -115,7 +115,7 @@ PostCard.propTypes = {
     id: PropTypes.number, //나중에 백엔드 완성시 number로 오니깐 무시
     User: PropTypes.object,
     content: PropTypes.string,
-    createdAt: PropTypes.object,
+    createdAt: PropTypes.string, // backend에서 DESC 정렬을 string 으로 전달하고 있음
     Comments: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,

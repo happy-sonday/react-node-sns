@@ -20,65 +20,6 @@ export const initialState = {
   addCommentError: null,
 };
 
-export const generateDummyPost = (number) =>
-  Array(number)
-    .fill()
-    .map((v, i) => ({
-      id: shortid.generate(),
-
-      User: {
-        id: shortid.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.paragraph(),
-
-      Images: [
-        {
-          id: shortid.generate(),
-          src: faker.image.image(),
-        },
-      ],
-      Comments: [
-        {
-          User: {
-            id: shortid.generate(),
-            nickname: faker.name.findName(),
-          },
-          content: faker.lorem.sentence(),
-        },
-      ],
-    }));
-
-// initialState.mainPosts = initialState.mainPosts.concat(
-//   Array(40)
-//     .fill()
-//     .map((v, i) => ({
-//       id: shortid.generate(),
-
-//       User: {
-//         id: shortid.generate(),
-//         nickname: faker.name.findName(),
-//       },
-//       content: faker.lorem.paragraph(),
-
-//       Images: [
-//         {
-//           id: shortid.generate(),
-//           src: faker.image.image(),
-//         },
-//       ],
-//       Comments: [
-//         {
-//           User: {
-//             id: shortid.generate(),
-//             nickname: faker.name.findName(),
-//           },
-//           content: faker.lorem.sentence(),
-//         },
-//       ],
-//     }))
-// );
-
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
 export const LOAD_POSTS_FAILURE = "LOAD_POSTS_FAILURE";
@@ -103,15 +44,6 @@ export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
   data,
 });
-
-// const dummyComment = (data) => ({
-//   id: shortid.generate(),
-//   content: data,
-//   User: {
-//     id: 1,
-//     nickname: "손데이",
-//   },
-// });
 
 //NOTE: reducer이전 상태를액셩 통해 다음 상태로 만들어내는 함수 (불변성을 지키면서)
 const reducer = (state = initialState, action) => {
@@ -157,23 +89,7 @@ const reducer = (state = initialState, action) => {
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS:
-        // const postIndex = state.mainPosts.findIndex(
-        //   (v) => v.id === action.data.postId
-        // );
-        // const post = { ...state.mainPosts[postIndex] };
-        // post.Comments = [dummyComment(action.data.content), ...post.Comments];
-        // //const Comments = [dummyComment(action.data.content), ...post.Comments];
-        // const mainPosts = [...state.mainPosts];
-        // mainPosts[postIndex] = post;
-        // return {
-        //   ...state,
-        //   mainPosts,
-        //   addCommentLoading: false,
-        //   addCommentDone: true,
-        // };
-
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId); //Comment.create()안에 객체의 key명으로 가져온다
-        //post.Comments.unshift(dummyComment(action.data.content));
         post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
