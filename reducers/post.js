@@ -61,7 +61,6 @@ export const addComment = (data) => ({
 
 //NOTE: reducer이전 상태를액셩 통해 다음 상태로 만들어내는 함수 (불변성을 지키면서)
 const reducer = (state = initialState, action) => {
-  console.log(`reducer 액셜 실행 ${action.type}`);
   //immer 기본 꼴
   return produce(state, (draft) => {
     switch (action.type) {
