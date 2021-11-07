@@ -58,15 +58,6 @@ export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 
-const dummyUser = (data) => ({
-  ...data,
-  nickname: "손데이",
-  id: 1,
-  Posts: [{ id: 1 }],
-  Followings: [{ nickname: "해피" }, { nickname: "손샤인" }],
-  Followers: [{ nickname: "해피" }, { nickname: "손샤인" }],
-});
-
 export const loginRequestAction = (data) => {
   return {
     type: LOG_IN_REQUEST,
@@ -160,19 +151,22 @@ const reducer = (state = initialState, action) => {
         draft.signUpDone = false;
         draft.signUpError = null;
         break;
+
       case CHANGE_NICKNAME_REQUEST:
+        draft.changeNicknameLoading = true;
+        draft.changeNicknameError = null;
+        draft.changeNicknameDone = false;
+        break;
+      case CHANGE_NICKNAME_SUCCESS:
+        draft.self.nickname = action.data.nickname;
         draft.changeNicknameLoading = false;
         draft.changeNicknameDone = true;
         break;
-      case CHANGE_NICKNAME_SUCCESS:
-        draft.hangeNicknameLoading = false;
+      case CHANGE_NICKNAME_FAILURE:
+        draft.changeNicknameLoading = false;
         draft.changeNicknameError = action.error;
         break;
-      case CHANGE_NICKNAME_FAILURE:
-        draft.changeNicknameLoading = true;
-        draft.changeNicknameDone = false;
-        draft.changeNicknameError = null;
-        break;
+
       case SIGN_UP_SUCCESS:
         draft.signUpLoading = false;
         draft.signUpDone = true;
@@ -184,23 +178,9 @@ const reducer = (state = initialState, action) => {
       case ADD_POST_TO_ME:
         draft.self.Posts.unshift({ id: action.data });
         break;
-      // return {
-      //   ...state,
-      //   self: {
-      //     ...state.self,
-      //     Posts: [{ id: action.data }, ...state.self.Posts],
-      //   },
-      // };
       case REMOVE_POST_OF_ME:
         draft.self.Posts = draft.self.Posts.filter((v) => v.id !== action.data);
         break;
-      // return {
-      //   ...state,
-      //   self: {
-      //     ...state.self,
-      //     Posts: state.self.Posts.filter((v) => v.id !== action.data),
-      //   },
-      // };
       default:
         break;
     }
