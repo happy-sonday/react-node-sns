@@ -120,16 +120,15 @@ function* signUp(action) {
     });
   }
 }
-function followAPI() {
-  return axios.post("/api/follow");
+function followAPI(data) {
+  return axios.patch(`/user/${data}/follow`);
 }
 function* follow(action) {
   try {
-    yield delay(1000);
-    // const result = yield call(logOutAPI);
+    const result = yield call(followAPI, action.data);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -139,16 +138,15 @@ function* follow(action) {
     });
   }
 }
-function unfollowAPI() {
-  return axios.post("/api/unfollow");
+function unfollowAPI(data) {
+  return axios.delete(`/user/${data}/follow`);
 }
 function* unfollow(action) {
   try {
-    yield delay(1000);
-    // const result = yield call(logOutAPI);
+    const result = yield call(unfollowAPI, action.data);
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
