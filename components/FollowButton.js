@@ -8,6 +8,7 @@ const FollowButton = ({ post }) => {
     (state) => state.user
   );
   const dispatch = useDispatch();
+
   const isFollowing = self?.Followings.find((v) => v.id === post.User.id);
   const onFollow = useCallback(() => {
     if (isFollowing) {
@@ -22,6 +23,11 @@ const FollowButton = ({ post }) => {
       });
     }
   });
+
+  // 본인이 작성한 글일 경우 버튼 미노출
+  if (post.User.id === self.id) {
+    return null;
+  }
   return (
     <Button loading={followLoading || unfollowLoading} onClick={onFollow}>
       {isFollowing ? "언팔로우" : "팔로우"}
