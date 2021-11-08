@@ -29,14 +29,12 @@ const PostCard = ({ post }) => {
   const dispatch = useDispatch();
 
   const onLike = useCallback(() => {
-    console.log("PostCard.js", post);
     dispatch({
       type: LIKE_POST_REQUEST,
       data: post.id,
     });
   }, []);
   const onUnlike = useCallback(() => {
-    console.log("PostCard.js", post);
     dispatch({
       type: UNLIKE_POST_REQUEST,
       data: post.id,

@@ -226,4 +226,23 @@ router.get("/followers", isLoggedIn, async (req, res, next) => {
   }
 });
 
+// 팔로워 차단
+router.delete("/follower/:userId", isLoggedIn, async (req, res, next) => {
+  // DELETE /user/follower/3
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+    });
+    if (!user) {
+      res.send(403).send("없는 유저입니다.");
+    }
+    await user.removeFollowings(req.user.id);
+    //console.log("서버 팔로워 목록 불러오기 결과값:", followers);
+    res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

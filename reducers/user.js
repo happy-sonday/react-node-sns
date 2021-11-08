@@ -19,6 +19,9 @@ export const initialState = {
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
+  removeFollowerLoading: false,
+  removeFollowerDone: false,
+  removeFollowerError: null,
   logOutLoading: false,
   logOutDone: false,
   logOutError: null,
@@ -68,6 +71,10 @@ export const FOLLOW_FAILURE = "FOLLOW_FAILURE";
 export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
 export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
 export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
+
+export const REMOVE_FOLLOWER_REQUEST = "REMOVE_FOLLOWER_REQUEST";
+export const REMOVE_FOLLOWER_SUCCESS = "REMOVE_FOLLOWER_SUCCESS";
+export const REMOVE_FOLLOWER_FAILURE = "REMOVE_FOLLOWER_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
@@ -159,6 +166,24 @@ const reducer = (state = initialState, action) => {
         draft.unfollowLoading = false;
         draft.unfollowError = action.error;
         break;
+
+      case REMOVE_FOLLOWER_REQUEST:
+        draft.removeFollowerLoading = true;
+        draft.removeFollowerError = null;
+        draft.removeFollowerDone = false;
+        break;
+      case REMOVE_FOLLOWER_SUCCESS:
+        draft.removeFollowerLoading = false;
+        draft.removeFollowerDone = true;
+        draft.self.Followers = draft.self.Followers.filter(
+          (v) => v.id !== action.data.UserId
+        );
+        break;
+      case REMOVE_FOLLOWER_FAILURE:
+        draft.removeFollowerLoading = false;
+        draft.removeFollowerError = action.error;
+        break;
+
       case LOG_IN_REQUEST:
         draft.logInLoading = true;
         draft.logInError = null;

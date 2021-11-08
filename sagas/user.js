@@ -28,7 +28,29 @@ import {
   LOAD_FOLLOWERS_FAILURE,
   LOAD_FOLLOWINGS_SUCCESS,
   LOAD_FOLLOWINGS_FAILURE,
+  REMOVE_FOLLOWER_REQUEST,
+  REMOVE_FOLLOWER_SUCCESS,
+  REMOVE_FOLLOWER_FAILURE,
 } from "../reducers/user";
+
+function removeFollowerAPI(data) {
+  return axios.delete(`/user/follower/${data}`);
+}
+
+function* removeFollower(action) {
+  try {
+    const result = yield call(removeFollowerAPI, action.data);
+    yield put({
+      type: REMOVE_FOLLOWER_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: REMOVE_FOLLOWER_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
 
 function loadFollowingsAPI(data) {
   return axios.get("/user/followings", data);
@@ -37,7 +59,7 @@ function loadFollowingsAPI(data) {
 function* loadFollowings(action) {
   try {
     const result = yield call(loadFollowingsAPI, action.data);
-    console.log(result);
+
     yield put({
       type: LOAD_FOLLOWINGS_SUCCESS,
       data: result.data,
@@ -57,7 +79,7 @@ function loadFollowersAPI(data) {
 function* loadFollowers(action) {
   try {
     const result = yield call(loadFollowersAPI, action.data);
-    console.log(result);
+
     yield put({
       type: LOAD_FOLLOWERS_SUCCESS,
       data: result.data,
@@ -147,7 +169,6 @@ function* logOut(action) {
 }
 
 function signUpAPI(data) {
-  console.log("회원가입 서버요청");
   return axios.post("/user", data);
 }
 function* signUp(action) {
@@ -203,6 +224,10 @@ function* unfollow(action) {
   }
 }
 
+function* watchRemoveFollower() {
+  yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
+}
+
 function* watchLoadFollowings() {
   yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
 }
@@ -236,6 +261,7 @@ function* watchSignUp() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchRemoveFollower),
     fork(watchLoadFollowings),
     fork(watchLoadFollowers),
     fork(watchChangNickname),
