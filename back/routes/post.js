@@ -15,12 +15,43 @@ try {
   fs.mkdirSync("uploads");
 }
 
-router.post("/", isLoggedIn, async (req, res, next) => {
+const upload = multer({
+  storage: multer.diskStorage({
+    // 임시로 파일시스템 스토리지에 저장, 배포시 AWS로 변경 예정
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      // 업로드시 중복파일명은 덮어버리기때문에 ms단위로 파일명 뒤에 붙임
+      const ext = path.extname(file.originalname); // 확장자 추출(png)
+      const basename = path.basename(file.originalname, ext); // 파일명
+      done(null, basename + "_" + new Date().getTime() + ext); // 파일명2110812.png
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 용량 제한 20MB
+});
+
+router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
     });
+
+    // NOTE: front에서 key명은 반드시 일치해야한다.
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) {
+        // 이미지를 여러개 올리면 image : { 1.png, 2.png}
+        const images = await Promise.all(
+          req.body.image.map((image) => Image.create({ src: image }))
+        );
+        await post.addImages(images);
+      } else {
+        // 이미지 단수
+        const image = await Image.create({ src: req.body.image });
+        await post.addImages(image);
+      }
+    }
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [
@@ -88,21 +119,26 @@ router.post("/:postId/comment", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.patch("/:postId/like", isLoggedIn, async (req, res, next) => {
-  // PATCH /post/1/like
-  try {
-    const post = await Post.findOne({ where: { id: req.params.postId } });
-    if (!post) {
-      return res.status(403).send("게시글이 존재하지 않습니다.");
+router.patch(
+  "/:postId/like",
+  isLoggedIn,
+  upload.none(),
+  async (req, res, next) => {
+    // PATCH /post/1/like
+    try {
+      const post = await Post.findOne({ where: { id: req.params.postId } });
+      if (!post) {
+        return res.status(403).send("게시글이 존재하지 않습니다.");
+      }
+      // 자동 생성된 시퀄라이저 관계 메서드 작성
+      await post.addLikers(req.user.id);
+      res.status(200).json({ PostId: post.id, UserId: req.user.id });
+    } catch (error) {
+      console.error(error);
+      next(error);
     }
-    // 자동 생성된 시퀄라이저 관계 메서드 작성
-    await post.addLikers(req.user.id);
-    res.status(200).json({ PostId: post.id, UserId: req.user.id });
-  } catch (error) {
-    console.error(error);
-    next(error);
   }
-});
+);
 
 router.delete("/:postId/like", isLoggedIn, async (req, res, next) => {
   // DELETE /post/1/like
@@ -137,21 +173,6 @@ router.delete("/:postId", isLoggedIn, async (req, res, next) => {
   }
 });
 
-const upload = multer({
-  storage: multer.diskStorage({
-    // 임시로 파일시스템 스토리지에 저장, 배포시 AWS로 변경 예정
-    destination(req, file, done) {
-      done(null, "uploads");
-    },
-    filename(req, file, done) {
-      // 업로드시 중복파일명은 덮어버리기때문에 ms단위로 파일명 뒤에 붙임
-      const ext = path.extname(file.originalname); // 확장자 추출(png)
-      const basename = path.basename(file.originalname, ext); // 파일명
-      done(null, basename + "_" + new Date().getTime() + ext); // 파일명2110812.png
-    },
-  }),
-  limits: { fileSize: 20 * 1024 * 1024 }, // 용량 제한 20MB
-});
 router.post(
   "/images",
   isLoggedIn,

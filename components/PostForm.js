@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from "../reducers/post";
+import {
+  addPost,
+  REMOVE_IMAGE,
+  UPLOAD_IMAGES_REQUEST,
+  ADD_POST_REQUEST,
+} from "../reducers/post";
 
 const PostFrom = () => {
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
@@ -20,9 +25,20 @@ const PostFrom = () => {
   }, []);
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost(text));
-    //setText("");
-  }, [text]);
+    //dispatch(addPost(text));
+    if (!text || !text.trim) {
+      return alert("게시글을 작성하세요.");
+    }
+    const formData = new FormData();
+    imagePaths.forEach((pic) => {
+      formData.append("image", pic);
+    });
+    formData.append("content", text);
+    return dispatch({
+      type: ADD_POST_REQUEST,
+      data: formData,
+    });
+  }, [text, imagePaths]);
 
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
@@ -56,7 +72,6 @@ const PostFrom = () => {
     >
       <Input.TextArea
         value={text}
-        name="image"
         onChange={onChangeText}
         maxLength={140}
         placeholder={"경험을 적어보세요?"}
@@ -64,6 +79,7 @@ const PostFrom = () => {
       <div>
         <input
           type="file"
+          name="image"
           multiple
           hidden
           ref={imageInput}

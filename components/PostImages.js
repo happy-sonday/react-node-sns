@@ -17,7 +17,7 @@ const PostImages = ({ images }) => {
       <>
         <img
           role="presentation"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
@@ -30,14 +30,14 @@ const PostImages = ({ images }) => {
       <>
         <img
           role="presentation"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
           style={{ width: "50%", display: "inline-block" }}
         />
         <img
           role="presentation"
-          src={images[1].src}
+          src={`http://localhost:3065/${images[1].src}`}
           alt={images[1].src}
           onClick={onZoom}
           style={{ width: "50%", display: "inline-block" }}
@@ -52,7 +52,7 @@ const PostImages = ({ images }) => {
       <div>
         <img
           role="presentation"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
           style={{ width: "50%" }}

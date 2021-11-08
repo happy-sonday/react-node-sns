@@ -113,10 +113,11 @@ function* unlikePost(action) {
 }
 
 function addPostAPI(data) {
-  //back에서 req.body.content
   return axios.post(
     "/post",
-    { content: data },
+    //{ content: data },
+    //FormData는 바로 data 파라미터로 넘겨줘야한다. 중괄호로 묶을 경우 json으로 넘어감
+    data,
     {
       withCredentials: true,
     }
@@ -125,20 +126,13 @@ function addPostAPI(data) {
 
 function* addPost(action) {
   try {
-    //yield delay(1000);
     const result = yield call(addPostAPI, action.data);
-    //const id = shortid.generate();
     yield put({
       type: ADD_POST_SUCCESS,
-      // data: {
-      //   id,
-      //   content: action.data,
-      // },
       data: result.data,
     });
     yield put({
       type: ADD_POST_TO_ME,
-      //data: id,
       data: result.data.id,
     });
   } catch (err) {
