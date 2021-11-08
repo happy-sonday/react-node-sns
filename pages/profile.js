@@ -5,19 +5,34 @@ import NicknameEditionForm from "../components/NicknamEditionForm";
 import FollowerList from "../components/FollowList";
 import { useSelector } from "react-redux";
 import Router from "next/router";
+import { useDispatch } from "react-redux";
+import {
+  LOAD_FOLLOWERS_REQUEST,
+  LOAD_FOLLOWINGS_REQUEST,
+} from "../reducers/user";
 
 const Profile = () => {
-  // const followerList = [
-  //   { nickname: "sonday" },
-  //   { nickname: "happy" },
-  //   { nickname: "yeah" },
-  // ];
-  // const follwingList = [
-  //   { nickname: "sonday" },
-  //   { nickname: "happy" },
-  //   { nickname: "yeah" },
-  // ];
+  const dispatch = useDispatch();
+  /*   const followerList = [
+    { nickname: "sonday" },
+    { nickname: "happy" },
+    { nickname: "yeah" },
+  ];
+  const followingList = [
+    { nickname: "sonday" },
+    { nickname: "happy" },
+    { nickname: "yeah" },
+  ]; */
   const { self } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_FOLLOWINGS_REQUEST,
+    });
+    dispatch({
+      type: LOAD_FOLLOWERS_REQUEST,
+    });
+  }, []);
 
   useEffect(() => {
     if (!(self && self.id)) {
@@ -27,6 +42,7 @@ const Profile = () => {
   if (!self) {
     return null;
   }
+
   return (
     <>
       <Head>
@@ -36,6 +52,8 @@ const Profile = () => {
         <NicknameEditionForm />
         <FollowerList header="팔로잉" data={self.Followings} />
         <FollowerList header="팔로워" data={self.Followers} />
+        {/* <FollowerList header="팔로잉" data={followerList} />
+        <FollowerList header="팔로워" data={followingList} /> */}
       </AppLayout>
     </>
   );
