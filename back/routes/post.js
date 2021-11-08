@@ -1,8 +1,19 @@
 const express = require("express");
 const { Post, Image, Comment, User } = require("../models");
 const { isLoggedIn } = require("./middlewares");
+const path = require("path");
+const multer = require("multer");
+const fs = require("fs");
 
 const router = express.Router();
+
+// 이미지 업로드를 위한 폴더 생성
+try {
+  fs.accessSync("uploads");
+} catch (error) {
+  console.log("uploads 폴더가 없으므로 생성");
+  fs.mkdirSync("uploads");
+}
 
 router.post("/", isLoggedIn, async (req, res, next) => {
   try {
@@ -125,5 +136,35 @@ router.delete("/:postId", isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    // 임시로 파일시스템 스토리지에 저장, 배포시 AWS로 변경 예정
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      // 업로드시 중복파일명은 덮어버리기때문에 ms단위로 파일명 뒤에 붙임
+      const ext = path.extname(file.originalname); // 확장자 추출(png)
+      const basename = path.basename(file.originalname, ext); // 파일명
+      done(null, basename + "_" + new Date().getTime() + ext); // 파일명2110812.png
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 용량 제한 20MB
+});
+router.post(
+  "/images",
+  isLoggedIn,
+  // multipart의 하위 요소의 input name 속성 값을 찾아 가져온다.
+  // 하나의 input요소에서 단일 이미지가 올릴 경우 single, 복수의 경우 array를 쓰면 된다.
+  // 중복된 name에서 여러개의 input 이미지 업로드가 있을경우 fields를 쓴다
+  // 텍스트만 업로드할경우 none
+  upload.array("image"),
+  async (req, res, next) => {
+    // upload 변수에 이미 이미지값이 할당된 후에 하위 코드 실행
+    console.log(req.files);
+    res.json(req.files.map((v) => v.filename));
+  }
+);
 
 module.exports = router;
