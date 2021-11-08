@@ -10,6 +10,7 @@ const db = require("./models");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passportConfig = require("./passport");
+const path = require("path");
 
 dotenv.config();
 const app = express();
@@ -29,6 +30,11 @@ app.use(
     credentials: true, // CORS Access-Control-Allow-Credentials Cookie도 같이 전달하기 위함
   })
 );
+
+//express에서 프론트가 접근할 수 있도록 설정
+// back 내부에서 uploads 폴더를 바로 결합해준다.
+// '/'는 http://localhost:3060을 말함
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

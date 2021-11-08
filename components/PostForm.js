@@ -70,7 +70,13 @@ const PostFrom = () => {
       <div>
         {imagePaths.map((v) => (
           <div key={v} style={{ display: "inline-block" }}>
-            <img src={v} style={{ width: "200px" }} />
+            <img
+              src={`http://localhost:3065/${v}`}
+              style={{ width: "200px" }}
+            />
+            <div>
+              <Button>제거</Button>
+            </div>
           </div>
         ))}
       </div>
