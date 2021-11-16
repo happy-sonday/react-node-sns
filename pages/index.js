@@ -5,7 +5,8 @@ import AppLayout from "../components/AppLayout";
 import PostCard from "../components/PostCard";
 import PostFrom from "../components/PostForm";
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
-import { LOAD_USER_REQUEST } from "../reducers/user";
+import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
+import axios from "axios";
 import wrapper from "../store/configureStore";
 
 const Home = () => {
@@ -66,8 +67,16 @@ const Home = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
+    // 로그인상태를 백엔드와 공유하기 위에 쿠키 전달
+    const cookie = context.req ? context.req.headers.cookie : "";
+    // NOTE:다른 사용자들과 공유되지 않기 위해 초기화
+    axios.defaults.headers.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+
     context.store.dispatch({
-      type: LOAD_USER_REQUEST,
+      type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch({
       type: LOAD_POSTS_REQUEST,
