@@ -41,6 +41,44 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// 팔로잉 목록 불러오기
+router.get("/followings", isLoggedIn, async (req, res, next) => {
+  // GET /followings
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+    });
+    if (!user) {
+      res.send(403).send("없는 유저입니다.");
+    }
+    const followings = await user.getFollowings();
+    //console.log("서버 팔로잉 목록 불러오기 결과값:", followings);
+    res.status(200).json(followings);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 팔로워 목록 불러오기
+router.get("/followers", isLoggedIn, async (req, res, next) => {
+  // GET /followers
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+    });
+    if (!user) {
+      res.send(403).send("없는 유저입니다.");
+    }
+    const followers = await user.getFollowers();
+    //console.log("서버 팔로워 목록 불러오기 결과값:", followers);
+    res.status(200).json(followers);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.get("/:userId", async (req, res, next) => {
   // GET /user/1
 
@@ -226,44 +264,6 @@ router.delete("/:userId/follow", isLoggedIn, async (req, res, next) => {
     }
     user.removeFollowers(req.user.id);
     res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-// 팔로잉 목록 불러오기
-router.get("/followings", isLoggedIn, async (req, res, next) => {
-  // GET /followings
-  try {
-    const user = await User.findOne({
-      where: { id: req.user.id },
-    });
-    if (!user) {
-      res.send(403).send("없는 유저입니다.");
-    }
-    const followings = await user.getFollowings();
-    //console.log("서버 팔로잉 목록 불러오기 결과값:", followings);
-    res.status(200).json(followings);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-// 팔로워 목록 불러오기
-router.get("/followers", isLoggedIn, async (req, res, next) => {
-  // GET /followers
-  try {
-    const user = await User.findOne({
-      where: { id: req.user.id },
-    });
-    if (!user) {
-      res.send(403).send("없는 유저입니다.");
-    }
-    const followers = await user.getFollowers();
-    //console.log("서버 팔로워 목록 불러오기 결과값:", followers);
-    res.status(200).json(followers);
   } catch (error) {
     console.error(error);
     next(error);
