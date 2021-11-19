@@ -6,6 +6,7 @@ import UserProfile from "./UserProfile";
 import LoginForm from "./LoginForm";
 import { useSelector } from "react-redux";
 import { createGlobalStyle } from "styled-components";
+import { useRouter } from "next/dist/client/router";
 
 const Global = createGlobalStyle`
   .ant-row{
@@ -27,25 +28,26 @@ const Global = createGlobalStyle`
 const AppLayout = ({ children }) => {
   //const [loginFl, setLoginFl] = useState(false);
   const { self } = useSelector((state) => state.user);
+  const router = useRouter();
 
   return (
     <div>
       <Global />
-      <Menu mode="horizontal">
-        <Menu.Item>
+      <Menu mode="horizontal" selectedKeys={[router.pathname]}>
+        <Menu.Item key="/">
           <Link href="/">
             <a>노드버드</a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="/profile">
           <Link href="/profile">
             <a>프로필</a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="search-input-area">
           <Input.Search enterButton style={{ verticalAlign: "middle" }} />
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="/signup">
           <Link href="/signup">
             <a>회원가입</a>
           </Link>
