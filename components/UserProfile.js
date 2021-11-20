@@ -3,6 +3,7 @@ import { Button, Card } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
+import Link from "next/link";
 
 // eslint-disable-next-line react/prop-types
 const UserProfile = () => {
@@ -18,18 +19,30 @@ const UserProfile = () => {
       <Card
         actions={[
           <div key="twit">
-            짹짹
-            <br /> {self.Posts.length}
+            <Link href={`/user/${self.id}`}>
+              <a>
+                작성글
+                <br /> {self.Posts.length}
+              </a>
+            </Link>
           </div>,
           <div key="followings">
-            팔로잉
-            <br />
-            {self.Followings?.length}
+            <Link href="/profile">
+              <a>
+                팔로잉
+                <br />
+                {self.Followings?.length}
+              </a>
+            </Link>
           </div>,
           <div key="follower">
-            팔로워
-            <br />
-            {self.Followers?.length}
+            <Link href="/profile">
+              <a>
+                팔로워
+                <br />
+                {self.Followers?.length}
+              </a>
+            </Link>
           </div>,
         ]}
       >
