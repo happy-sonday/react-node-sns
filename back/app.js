@@ -1,6 +1,7 @@
 const express = require("express");
 const postRouter = require("./routes/post");
 const postsRouter = require("./routes/posts");
+const hashtagRouter = require("./routes/hashtag");
 const cors = require("cors");
 const userRouter = require("./routes/user");
 const passport = require("passport");
@@ -58,6 +59,7 @@ app.get("/", (req, res) => {
 app.use("/posts", postsRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
+app.use("/hashtag", hashtagRouter);
 
 //에러를 커스터마이징 next(error) 처리
 // app.use((err,req,res,next)=>{
