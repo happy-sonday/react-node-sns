@@ -50,6 +50,11 @@ const User = () => {
     };
   }, [mainPosts.length, hasMorePosts, id, loadPostsLoading]);
 
+  // NOTE: getStaticPath에서 fallback이 true일 때 null 값 방지 및 loading으로 대응
+  // if (router.isFallback) {
+  //   return <div>로딩 중....</div>;
+  // }
+
   return (
     <AppLayout>
       {userInfo && (
@@ -109,6 +114,14 @@ const User = () => {
     </AppLayout>
   );
 };
+// export async function getStaticPaths() {
+//   //NOTE: html로 미리 만들어놓을 만한 페이지만 작성한다
+//   return {
+//     paths: [{ params: { id: "1" } }],
+//     //true인 경우 404페이지는 아니지만 null 값이 발생
+//     fallback: true,
+//   };
+// }
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {

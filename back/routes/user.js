@@ -52,7 +52,9 @@ router.get("/followings", isLoggedIn, async (req, res, next) => {
     if (!user) {
       res.send(403).send("없는 유저입니다.");
     }
-    const followings = await user.getFollowings();
+    const followings = await user.getFollowings({
+      limit: parseInt(req.query.limit, 10),
+    });
     //console.log("서버 팔로잉 목록 불러오기 결과값:", followings);
     res.status(200).json(followings);
   } catch (error) {
@@ -71,7 +73,9 @@ router.get("/followers", isLoggedIn, async (req, res, next) => {
     if (!user) {
       res.send(403).send("없는 유저입니다.");
     }
-    const followers = await user.getFollowers();
+    const followers = await user.getFollowers({
+      limit: parseInt(req.query.limit, 10),
+    });
     //console.log("서버 팔로워 목록 불러오기 결과값:", followers);
     res.status(200).json(followers);
   } catch (error) {

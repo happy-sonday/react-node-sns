@@ -20,3 +20,9 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/react
 back/config/config.json
 back/.env
+back/uploads
+
+
+### NextJS ###
+# Next build dir
+.next/

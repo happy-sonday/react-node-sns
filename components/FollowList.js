@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { REMOVE_FOLLOWER_REQUEST, UNFOLLOW_REQUEST } from "../reducers/user";
 
-const FollowerList = ({ header, data }) => {
+const FollowerList = ({ header, data, onClickMore, loading }) => {
   const dispatch = useDispatch();
   const onCancel = (id) => () => {
     // 팔로잉일 경우 언팔로우
@@ -30,7 +30,9 @@ const FollowerList = ({ header, data }) => {
       header={<div>{header}</div>}
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
-          <Button>더 보기</Button>
+          <Button onClick={onClickMore} loading={loading}>
+            더 보기
+          </Button>
         </div>
       }
       bordered
@@ -51,6 +53,8 @@ const FollowerList = ({ header, data }) => {
 FollowerList.propTypes = {
   header: PropTypes.string.isRequired,
   data: PropTypes.arrayOf.isRequired,
+  onClickMore: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default FollowerList;
