@@ -180,7 +180,7 @@ const PostCard = ({ post }) => {
                   avatar={
                     <Link href={`/user/${item.User.id}`}>
                       <a>
-                        <Avatar>{item.User.nickname}</Avatar>
+                        <Avatar>{item.User.nickname[0]}</Avatar>
                       </a>
                     </Link>
                   }

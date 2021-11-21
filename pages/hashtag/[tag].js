@@ -76,7 +76,10 @@ const Hashtag = () => {
             property="og:image"
             content="https://nodebird.com/favicon.ico"
           />
-          <meta property="og:url" content={`https://nodebird.com/user/${id}`} />
+          <meta
+            property="og:url"
+            content={`https://nodebird.com/user/${tag}`}
+          />
         </Head>
       )}
       {userInfo ? (
