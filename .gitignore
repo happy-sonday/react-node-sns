@@ -21,6 +21,7 @@ sketch
 back/config/config.json
 back/.env
 back/uploads
+react-node-sns.pem
 
 
 ### NextJS ###
