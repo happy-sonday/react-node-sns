@@ -52,7 +52,7 @@ const FollowerList = ({ header, data, onClickMore, loading }) => {
 
 FollowerList.propTypes = {
   header: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf.isRequired,
+  data: PropTypes.array.isRequired,
   onClickMore: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };

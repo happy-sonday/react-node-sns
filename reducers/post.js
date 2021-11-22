@@ -1,7 +1,5 @@
 import produce from "../util/produce";
 
-import faker from "faker";
-import shortid from "shortid";
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
