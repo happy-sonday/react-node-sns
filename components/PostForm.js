@@ -7,6 +7,7 @@ import {
   UPLOAD_IMAGES_REQUEST,
   ADD_POST_REQUEST,
 } from "../reducers/post";
+import { backUrl } from "../config/config";
 
 const PostFrom = () => {
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
@@ -93,10 +94,7 @@ const PostFrom = () => {
       <div>
         {imagePaths.map((v, idx) => (
           <div key={v} style={{ display: "inline-block" }}>
-            <img
-              src={`http://localhost:3065/${v}`}
-              style={{ width: "200px" }}
-            />
+            <img src={`${backUrl}/${v}`} style={{ width: "200px" }} />
             <div>
               <Button onClick={onRemoveImage(idx)}>제거</Button>
             </div>
