@@ -12,10 +12,20 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passportConfig = require("./passport");
 const path = require("path");
+const hpp = require("hpp");
+const helmet = require("helmet");
 
 dotenv.config();
 const app = express();
-app.use(morgan("dev"));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(morgan("combined"));
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan("dev"));
+}
+
 db.sequelize
   .sync()
   .then(() => {
@@ -27,7 +37,7 @@ passportConfig();
 app.use(
   cors({
     //origin:'https://hodebird.com',
-    origin: true, //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
+    origin: ["http://localhost:3060", "node-sns.com"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
     credentials: true, // CORS Access-Control-Allow-Credentials Cookie도 같이 전달하기 위함
   })
 );
