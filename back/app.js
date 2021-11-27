@@ -37,7 +37,7 @@ passportConfig();
 app.use(
   cors({
     //origin:'https://hodebird.com',
-    origin: ["http://localhost:3060", "node-sns.com", "http://13.125.102.150"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
+    origin: ["http://localhost:3060", "node-sns.com", "http://3.37.127.92"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
     credentials: true, // CORS Access-Control-Allow-Credentials Cookie도 같이 전달하기 위함
   })
 );
