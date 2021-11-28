@@ -37,7 +37,7 @@ passportConfig();
 app.use(
   cors({
     //origin:'https://hodebird.com',
-    origin: ["http://localhost:3060", "http://happy-sns.gq"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
+    origin: ["http://localhost:3060", "http://happy-sns.site"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
     credentials: true, // CORS Access-Control-Allow-Credentials Cookie도 같이 전달하기 위함
   })
 );
@@ -58,7 +58,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false, // https적용시 true로 변경예정
-      domain: process.env.NODE_ENV === "production" && "-happy-sns.ga",
+      domain: process.env.NODE_ENV === "production" && ".happy-sns.site",
     },
   })
 );
