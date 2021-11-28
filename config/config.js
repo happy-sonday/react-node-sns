@@ -1,1 +1,1 @@
-export const backUrl = "http://15.165.162.35";
+export const backUrl = "http://api-happy-sns.ga";
