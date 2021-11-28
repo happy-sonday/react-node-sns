@@ -37,7 +37,7 @@ passportConfig();
 app.use(
   cors({
     //origin:'https://hodebird.com',
-    origin: ["http://localhost:3060", "node-sns.com", "http://3.37.127.92"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
+    origin: ["http://localhost:3060", "happy-sns.gq", "http://3.37.217.216"], //'*' 동일 단, withCredentials을 쓰면 주소를 명확히 쓰도록 에러 발생
     credentials: true, // CORS Access-Control-Allow-Credentials Cookie도 같이 전달하기 위함
   })
 );
@@ -76,6 +76,7 @@ app.use("/hashtag", hashtagRouter);
 
 // });
 
-app.listen(3065, () => {
+//app.listen(3065, () => {
+app.listen(80, () => {
   console.log("서버 실행중!");
 });
