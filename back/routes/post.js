@@ -378,7 +378,7 @@ router.post(
     console.log(req.files);
     // res.json(req.files.map((v) => v.filename));
     res.json(
-      req.files.map((v) => v.location.replace(/\/original\//, "/thumb"))
+      req.files.map((v) => v.location.replace(/\/original\//, "/thumb/"))
     );
   }
 );
