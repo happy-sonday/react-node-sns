@@ -4,6 +4,8 @@ const { isLoggedIn } = require("./middlewares");
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
+const multerS3 = require("multer-s3");
+const AWS = require("aws-sdk");
 
 const router = express.Router();
 
@@ -15,17 +17,30 @@ try {
   fs.mkdirSync("uploads");
 }
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: "ap-northeast-2",
+});
 const upload = multer({
-  storage: multer.diskStorage({
-    // 임시로 파일시스템 스토리지에 저장, 배포시 AWS로 변경 예정
-    destination(req, file, done) {
-      done(null, "uploads");
-    },
-    filename(req, file, done) {
-      // 업로드시 중복파일명은 덮어버리기때문에 ms단위로 파일명 뒤에 붙임
-      const ext = path.extname(file.originalname); // 확장자 추출(png)
-      const basename = path.basename(file.originalname, ext); // 파일명
-      done(null, basename + "_" + new Date().getTime() + ext); // 파일명2110812.png
+  // storage: multer.diskStorage({
+  //   // 임시로 파일시스템 스토리지에 저장, 배포시 AWS로 변경 예정
+  //   destination(req, file, done) {
+  //     done(null, "uploads");
+  //   },
+  //   filename(req, file, done) {
+  //     // 업로드시 중복파일명은 덮어버리기때문에 ms단위로 파일명 뒤에 붙임
+  //     const ext = path.extname(file.originalname); // 확장자 추출(png)
+  //     const basename = path.basename(file.originalname, ext); // 파일명
+  //     done(null, basename + "_" + new Date().getTime() + ext); // 파일명2110812.png
+  //   },
+  // }),
+  //NOTE: S3로 변경
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: "happy-sns-s3",
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
     },
   }),
   limits: { fileSize: 20 * 1024 * 1024 }, // 용량 제한 20MB
@@ -361,7 +376,8 @@ router.post(
   async (req, res, next) => {
     // upload 변수에 이미 이미지값이 할당된 후에 하위 코드 실행
     console.log(req.files);
-    res.json(req.files.map((v) => v.filename));
+    // res.json(req.files.map((v) => v.filename));
+    res.json(req.files.map((v) => v.location));
   }
 );
 
