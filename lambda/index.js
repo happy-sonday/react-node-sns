@@ -3,7 +3,7 @@ const sharp = require("sharp");
 
 const s3 = new AWS.s3();
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   const Bucket = event.Records[0].s3.bucket.name; // name은 s3 생성한 이름
   const Key = decodeURIComponent(event.Records[0].s3.object.key); // original/파일명.png
   console.log(Bucket, Key);
