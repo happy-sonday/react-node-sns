@@ -22,7 +22,7 @@ back/config/config.json
 back/.env
 back/uploads
 react-node-bird.pem
-
+rootkey.csv
 
 ### NextJS ###
 # Next build dir

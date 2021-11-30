@@ -377,7 +377,9 @@ router.post(
     // upload 변수에 이미 이미지값이 할당된 후에 하위 코드 실행
     console.log(req.files);
     // res.json(req.files.map((v) => v.filename));
-    res.json(req.files.map((v) => v.location));
+    res.json(
+      req.files.map((v) => v.location.replace(/\/original\//, "/thumb"))
+    );
   }
 );
 
