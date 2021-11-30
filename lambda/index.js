@@ -1,16 +1,17 @@
 const AWS = require("aws-sdk");
 const sharp = require("sharp");
 
-const s3 = new AWS.s3();
+const s3 = new AWS.S3();
 
 exports.handler = async (event, context, callback) => {
-  const Bucket = event.Records[0].s3.bucket.name; // name은 s3 생성한 이름
-  const Key = decodeURIComponent(event.Records[0].s3.object.key); // original/파일명.png
+  const Bucket = event.Records[0].s3.bucket.name;
+  const Key = decodeURIComponent(event.Records[0].s3.object.key);
   console.log(Bucket, Key);
-  const filename = Key.split("/")[key.split("/").length - 1];
-  const ext = Key.split(".")[key.split(".").length - 1].toLowerCase(); // 사용자가 확장자 대문 입력 대응
+  const filename = Key.split("/")[Key.split("/").length - 1];
+  const ext = Key.split(".")[Key.split(".").length - 1].toLowerCase();
   const requiredFormat = ext === "jpg" ? "jpeg" : ext;
   console.log("filename", filename, "ext", ext);
+
   try {
     const s3Object = await s3.getObject({ Bucket, Key }).promise();
     console.log("original", s3Object.Body.length);
